@@ -1,0 +1,32 @@
+version: "3.3"
+
+services:
+  hpcdsystem:
+    image: halsoprofilen
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: halsoprofilen-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./user-client/build:/app/wwwroot/user
+      - ./admin-client/build:/app/wwwroot/admin
+      - ./HPCDSystem/bin/Debug/net9.0:/app
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+
+volumes:
+  sqlserverdata:

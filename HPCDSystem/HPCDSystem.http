@@ -1,0 +1,6 @@
+@HPCDSystem_HostAddress = http://localhost:5295
+
+GET {{HPCDSystem_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

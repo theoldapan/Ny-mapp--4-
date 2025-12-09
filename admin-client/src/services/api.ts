@@ -1,12 +1,9 @@
-// API Configuration
 const API_BASE_URL = "https://localhost:7015/api";
 
-// Convert camelCase to PascalCase for C#/.NET backend
 function toPascalCase(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Convert object keys from camelCase to PascalCase
 function convertKeysToPascalCase(obj: unknown): unknown {
   if (obj === null || obj === undefined) {
     return obj;
@@ -27,7 +24,6 @@ function convertKeysToPascalCase(obj: unknown): unknown {
   return obj;
 }
 
-// Generic API fetch wrapper
 async function apiFetch<T>(
   endpoint: string,
   options: RequestInit = {}
@@ -40,15 +36,12 @@ async function apiFetch<T>(
     ...options.headers,
   };
 
-  // Convert request body to PascalCase for C#/.NET
   let body = options.body;
   if (body && typeof body === "string") {
     try {
       const parsed = JSON.parse(body);
       body = JSON.stringify(convertKeysToPascalCase(parsed));
-    } catch {
-      // If it's not valid JSON, keep the original body
-    }
+    } catch {}
   }
 
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -64,7 +57,6 @@ async function apiFetch<T>(
     throw new Error(error.message || `HTTP error! status: ${response.status}`);
   }
 
-  // Handle 204 No Content responses (common for DELETE operations)
   if (
     response.status === 204 ||
     response.headers.get("content-length") === "0"

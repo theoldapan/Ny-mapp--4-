@@ -16,7 +16,7 @@ namespace HPCDSystem.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastLogin { get; set; }
-        public string Role { get; internal set; }
+        
 
     }
 }

@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hälsoprofilen Admin Dashboard Design System */
-
 @layer base {
   :root {
     --background: 210 20% 98%;
@@ -45,7 +43,6 @@
     --sidebar-border: 217 33% 17%;
     --sidebar-ring: 217 91% 60%;
 
-    /* Custom tokens */
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;

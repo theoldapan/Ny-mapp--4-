@@ -1,13 +1,19 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AdminLayout } from '@/components/layout/AdminLayout';
-import { StatsCard } from '@/components/shared/StatsCard';
-import { StatusBadge } from '@/components/shared/StatusBadge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { dashboardService } from '@/services/dashboardService';
-import { DashboardStats } from '@/types';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AdminLayout } from "@/components/layout/AdminLayout";
+import { StatsCard } from "@/components/shared/StatsCard";
+import { StatusBadge } from "@/components/shared/StatusBadge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { dashboardService } from "@/services/dashboardService";
+import { DashboardStats } from "@/types";
 import {
   Users,
   CreditCard,
@@ -16,7 +22,7 @@ import {
   ArrowRight,
   UserPlus,
   CalendarPlus,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function Dashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -32,39 +38,38 @@ export default function Dashboard() {
       const data = await dashboardService.getStats();
       setStats(data);
     } catch (error) {
-      console.error('Failed to load stats:', error);
+      console.error("Failed to load stats:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <AdminLayout title="Dashboard" description="Overview of your health center">
-      {/* Stats Grid */}
+    <AdminLayout title="Dashboard" description="Översikt över systemstatus">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatsCard
-          title="Total Members"
+          title="Antal Kunder"
           value={stats?.totalMembers || 0}
           subtitle={`${stats?.activeMembers || 0} active`}
           icon={Users}
           variant="primary"
         />
         <StatsCard
-          title="Subscription Plans"
+          title="Prenumerationsplaner"
           value={stats?.totalSubscriptions || 0}
           subtitle={`${stats?.activeSubscriptions || 0} active`}
           icon={CreditCard}
           variant="success"
         />
         <StatsCard
-          title="Facilities"
+          title="Anläggningar"
           value={stats?.totalFacilities || 0}
           subtitle={`${stats?.availableFacilities || 0} available`}
           icon={Building2}
           variant="info"
         />
         <StatsCard
-          title="Blog Posts"
+          title="Antal Nyheter"
           value={stats?.totalBlogPosts || 0}
           subtitle={`${stats?.publishedPosts || 0} published`}
           icon={FileText}
@@ -72,40 +77,49 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Quick Actions */}
       <div className="mt-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Quick Actions</CardTitle>
-            <CardDescription>Common tasks you can perform</CardDescription>
+            <CardTitle className="text-lg">Snabba åtgärder</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-3">
-            <Button onClick={() => navigate('/members')} className="gap-2">
+            <Button onClick={() => navigate("/members")} className="gap-2">
               <UserPlus className="h-4 w-4" />
-              Add New Member
+              Lägg till medlem
             </Button>
-            <Button variant="outline" onClick={() => navigate('/blog')} className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/blog")}
+              className="gap-2"
+            >
               <CalendarPlus className="h-4 w-4" />
-              Create Blog Post
+              Skapa Nyhetsinlägg
             </Button>
-            <Button variant="outline" onClick={() => navigate('/subscriptions')} className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/subscriptions")}
+              className="gap-2"
+            >
               <CreditCard className="h-4 w-4" />
-              Manage Plans
+              Hantera prenumerationer
             </Button>
           </CardContent>
         </Card>
       </div>
 
-      {/* Recent Activity Grid */}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        {/* Recent Members */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-lg">Recent Members</CardTitle>
-              <CardDescription>Latest member registrations</CardDescription>
+              <CardTitle className="text-lg">Senaste</CardTitle>
+              <CardDescription>Senaste kundregistr</CardDescription>
             </div>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/members')} className="gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/members")}
+              className="gap-1"
+            >
               View all <ArrowRight className="h-4 w-4" />
             </Button>
           </CardHeader>
@@ -118,7 +132,8 @@ export default function Dashboard() {
                   <div key={member.id} className="flex items-center gap-3">
                     <Avatar className="h-10 w-10">
                       <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                        {member.firstName.charAt(0)}{member.lastName.charAt(0)}
+                        {member.firstName.charAt(0)}
+                        {member.lastName.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -133,20 +148,26 @@ export default function Dashboard() {
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-muted-foreground">No recent members</p>
+                <p className="text-sm text-muted-foreground">
+                  No recent members
+                </p>
               )}
             </div>
           </CardContent>
         </Card>
 
-        {/* Recent Blog Posts */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-lg">Recent Blog Posts</CardTitle>
               <CardDescription>Latest content updates</CardDescription>
             </div>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/blog')} className="gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/blog")}
+              className="gap-1"
+            >
               View all <ArrowRight className="h-4 w-4" />
             </Button>
           </CardHeader>
@@ -158,11 +179,14 @@ export default function Dashboard() {
                 stats.recentPosts.map((post) => (
                   <div key={post.id} className="space-y-1">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-medium truncate">{post.title}</p>
+                      <p className="text-sm font-medium truncate">
+                        {post.title}
+                      </p>
                       <StatusBadge status={post.status} />
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      By {post.author} • {new Date(post.createdAt).toLocaleDateString()}
+                      By {post.author} •{" "}
+                      {new Date(post.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                 ))

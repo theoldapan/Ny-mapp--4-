@@ -255,7 +255,7 @@ export default function Facilities() {
 
   return (
     <AdminLayout title="Locations" description="Manage gym locations and branches across cities">
-      {/* Toolbar */}
+      
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <SearchInput value={search} onChange={setSearch} placeholder="Search locations..." className="w-full sm:w-80" />
         <Dialog open={isDialogOpen} onOpenChange={(open) => { if (!open) closeDialog(); else setIsDialogOpen(true); }}>
@@ -341,7 +341,7 @@ export default function Facilities() {
 
       <DataTable columns={columns} data={filteredFacilities} isLoading={isLoading} emptyMessage="No locations found" />
 
-      {/* View Dialog */}
+      
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>

@@ -1,30 +1,21 @@
-// User & Auth Types
 export interface User {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
-  role: "Admin" | "Staff" | "Manager" | "User";
   phoneNumber?: string;
   gender?: string;
   dateOfBirth?: string;
+  role: "Admin" | "Manager" | "Staff" | "User";
+  isEmailConfirmed: boolean;
+  createdAt: string;
+  lastLogin?: string;
   address?: string;
   city?: string;
   zipCode?: string;
   country?: string;
-  isEmailConfirmed?: boolean;
-  createdAt?: string;
-  lastLogin?: string;
-  password?: string; // Only for creation
 }
 
-export interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-}
-
-// Member Types
 export interface Member {
   id: string;
   firstName: string;
@@ -45,29 +36,6 @@ export interface Member {
   notes?: string;
 }
 
-// Subscription Types
-export interface SubscriptionPlan {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  duration: number; // in days
-  features: string[];
-  isActive: boolean;
-  createdAt: string;
-}
-
-export interface MemberSubscription {
-  id: string;
-  memberId: string;
-  planId: string;
-  startDate: string;
-  endDate: string;
-  status: "Active" | "Expired" | "Cancelled";
-  paymentStatus: "Paid" | "Pending" | "Overdue";
-}
-
-// Facility Types (Gym Locations/Branches)
 export interface Facility {
   id: string;
   name: string;
@@ -85,7 +53,6 @@ export interface Facility {
   image?: string;
 }
 
-// Blog Types
 export interface BlogPost {
   id: string;
   title: string;
@@ -102,7 +69,27 @@ export interface BlogPost {
   updatedAt: string;
 }
 
-// Class/Schedule Types
+export interface SubscriptionPlan {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  duration: number;
+  features: string[];
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface MemberSubscription {
+  id: string;
+  memberId: string;
+  planId: string;
+  startDate: string;
+  endDate: string;
+  status: "Active" | "Expired" | "Cancelled";
+  paymentStatus: "Paid" | "Pending" | "Overdue";
+}
+
 export interface GymClass {
   id: string;
   name: string;
@@ -111,9 +98,9 @@ export interface GymClass {
   instructorName: string;
   facilityId?: string;
   facilityName?: string;
-  dayOfWeek: number; // 0-6 (Sunday-Saturday)
-  startTime: string; // HH:mm format
-  endTime: string; // HH:mm format
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
   capacity: number;
   enrolled: number;
   level: "Beginner" | "Intermediate" | "Advanced" | "All Levels";
@@ -131,7 +118,6 @@ export interface ClassRegistration {
   status: "Registered" | "Attended" | "NoShow" | "Cancelled";
 }
 
-// Dashboard Stats
 export interface DashboardStats {
   totalMembers: number;
   activeMembers: number;

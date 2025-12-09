@@ -97,16 +97,18 @@ namespace HPCDSystem.Controllers
                 await _roleManager.CreateAsync(new IdentityRole(dto.Role));
 
             await _userManager.AddToRoleAsync(user, dto.Role);
-            return Ok(new UserDto {
-    Id = user.Id,
-    Email = user.Email,
-    FirstName = user.FirstName,
-    LastName = user.LastName,
-    Role = user.Role,
-    CreatedAt = user.CreatedAt
-});
-
-
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            
+            return Ok(new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Role = roles.FirstOrDefault() ?? "User",
+                CreatedAt = user.CreatedAt
+            });
         }
 
         [HttpPut("{id}")]
@@ -128,7 +130,6 @@ namespace HPCDSystem.Controllers
             user.Gender = dto.Gender;
             user.DateOfBirth = dto.DateOfBirth;
 
-
             if (!string.IsNullOrEmpty(dto.CurrentPassword) && !string.IsNullOrEmpty(dto.NewPassword))
             {
                 var passwordResult = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
@@ -147,17 +148,17 @@ namespace HPCDSystem.Controllers
                 await _userManager.AddToRoleAsync(user, dto.Role);
             }
 
-var roles = await _userManager.GetRolesAsync(user);
-return Ok(new UserDto {
-    Id = user.Id,
-    Email = user.Email,
-    FirstName = user.FirstName,
-    LastName = user.LastName,
-    Role = user.Role,
-    CreatedAt = user.CreatedAt
-});
-
-
+            var roles = await _userManager.GetRolesAsync(user);
+            
+            return Ok(new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Role = roles.FirstOrDefault() ?? "User",
+                CreatedAt = user.CreatedAt
+            });
         }
 
         [HttpDelete("{id}")]

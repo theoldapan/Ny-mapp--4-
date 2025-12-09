@@ -36,7 +36,6 @@ export default function Login() {
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
-      // Navigation will happen via the isAuthenticated check above
     } catch (error) {
       toast({
         title: "Login failed",

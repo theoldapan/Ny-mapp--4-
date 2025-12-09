@@ -172,7 +172,7 @@ export default function Users() {
     if (id === currentUser?.id) {
       toast({
         title: "Error",
-        description: "You cannot delete your own account",
+        description: "Du kan inte ta bort din egen användare.",
         variant: "destructive",
       });
       return;
@@ -184,7 +184,7 @@ export default function Users() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to delete user",
+        description: "Fel vid borttagning av användare",
         variant: "destructive",
       });
     }
@@ -226,11 +226,11 @@ export default function Users() {
   const getRoleDescription = (role: User["role"]) => {
     switch (role) {
       case "Admin":
-        return "Full system access - can manage all users, settings, and data";
+        return "Full system kontroll och åtkomst till alla funktioner";
       case "Manager":
-        return "Can manage members, subscriptions, facilities, and blog content";
+        return "Kan hantera medlemmar och anläggningar";
       case "Staff":
-        return "Limited access - can view and update member information";
+        return "Limiterad åtkomst till dagliga operationer";
       default:
         return "";
     }
@@ -239,7 +239,7 @@ export default function Users() {
   const columns = [
     {
       key: "user",
-      header: "User",
+      header: "Kund",
       render: (user: User) => (
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
@@ -259,7 +259,7 @@ export default function Users() {
     },
     {
       key: "role",
-      header: "Role",
+      header: "Roll",
       render: (user: User) => (
         <div className="flex items-center gap-2">
           <Shield className="h-4 w-4 text-muted-foreground" />
@@ -271,12 +271,12 @@ export default function Users() {
     },
     {
       key: "createdAt",
-      header: "Joined",
+      header: "Gick med",
       render: (user: User) => new Date(user.createdAt).toLocaleDateString(),
     },
     {
       key: "lastLogin",
-      header: "Last Login",
+      header: "Senast inloggad",
       render: (user: User) =>
         user.lastLogin
           ? new Date(user.lastLogin).toLocaleDateString()
@@ -325,7 +325,6 @@ export default function Users() {
 
   return (
     <AdminLayout title="Users" description="Manage admin users and roles">
-      {/* Security Notice */}
       <div className="mb-6 rounded-lg border border-warning/20 bg-warning/5 p-4">
         <div className="flex items-start gap-3">
           <Shield className="h-5 w-5 text-warning mt-0.5" />
@@ -342,7 +341,6 @@ export default function Users() {
         </div>
       </div>
 
-      {/* Add User Button (Admin Only) */}
       {isAdmin && (
         <div className="mb-6 flex justify-end">
           <Dialog
@@ -495,7 +493,6 @@ export default function Users() {
         emptyMessage="No users found"
       />
 
-      {/* Edit User Dialog */}
       <Dialog
         open={isEditDialogOpen}
         onOpenChange={(open) => {
@@ -608,7 +605,6 @@ export default function Users() {
         </DialogContent>
       </Dialog>
 
-      {/* View User Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent>
           <DialogHeader>

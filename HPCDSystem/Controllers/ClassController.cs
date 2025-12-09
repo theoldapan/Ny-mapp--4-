@@ -19,7 +19,7 @@ public class ClassController : ControllerBase
         _context = context;
     }
 
-    // GET: api/classes
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<GymClassDto>>> GetAll()
     {
@@ -27,7 +27,7 @@ public class ClassController : ControllerBase
         return Ok(classes.Select(MapToDto));
     }
 
-    // GET: api/classes/{id}
+
     [HttpGet("{id}")]
     public async Task<ActionResult<GymClassDto>> GetById(Guid id)
     {
@@ -36,19 +36,26 @@ public class ClassController : ControllerBase
         return Ok(MapToDto(gymClass));
     }
 
-    // POST: api/classes
+
     [HttpPost]
     public async Task<ActionResult<GymClassDto>> Create(CreateGymClassDto dto)
     {
+
+        Guid instructorId = Guid.Empty;
+        if (!string.IsNullOrEmpty(dto.InstructorId) && Guid.TryParse(dto.InstructorId, out var parsedId))
+        {
+            instructorId = parsedId;
+        }
+
         var gymClass = new GymClass
         {
             Id = Guid.NewGuid(),
             Name = dto.Name,
-            Description = dto.Description,
-            InstructorId = string.IsNullOrEmpty(dto.InstructorId) ? Guid.Empty : Guid.Parse(dto.InstructorId),
+            Description = dto.Description ?? string.Empty,
+            InstructorId = instructorId,
             InstructorName = dto.InstructorName,
             FacilityId = dto.FacilityId,
-            FacilityName = dto.FacilityName,
+            FacilityName = dto.FacilityName ?? string.Empty,
             DayOfWeek = dto.DayOfWeek,
             StartTime = dto.StartTime,
             EndTime = dto.EndTime,
@@ -66,7 +73,7 @@ public class ClassController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = gymClass.Id }, MapToDto(gymClass));
     }
 
-    // PUT: api/classes/{id}
+
     [HttpPut("{id}")]
     public async Task<ActionResult<GymClassDto>> Update(Guid id, UpdateGymClassDto dto)
     {
@@ -91,7 +98,7 @@ public class ClassController : ControllerBase
         return Ok(MapToDto(gymClass));
     }
 
-    // DELETE: api/classes/{id}
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -103,7 +110,7 @@ public class ClassController : ControllerBase
         return NoContent();
     }
 
-    // GET: api/classes/{classId}/registrations
+
     [HttpGet("{classId}/registrations")]
     public async Task<ActionResult<IEnumerable<ClassRegistrationDto>>> GetRegistrations(Guid classId)
     {

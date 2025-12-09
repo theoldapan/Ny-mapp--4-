@@ -13,7 +13,6 @@ export default defineConfig({
     host: "localhost",
     port: 5173,
 
-    // 👇 Fixar WebSocket-problemet
     hmr: {
       protocol: "wss",
       host: "localhost",

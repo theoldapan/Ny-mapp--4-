@@ -84,8 +84,8 @@ export default function Blog() {
       setPosts(data);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to load blog posts",
+        title: "Fel",
+        description: "Kunde inte ladda blogginlägg",
         variant: "destructive",
       });
     } finally {
@@ -116,17 +116,17 @@ export default function Blog() {
       if (editingPost) {
         const updated = await blogService.update(editingPost.id, postData);
         setPosts(posts.map((p) => (p.id === editingPost.id ? updated : p)));
-        toast({ title: "Success", description: "Post updated successfully" });
+        toast({ title: "Klart", description: "Inlägg uppdaterat" });
       } else {
         const newPost = await blogService.create(postData);
         setPosts([newPost, ...posts]);
-        toast({ title: "Success", description: "Post created successfully" });
+        toast({ title: "Klart", description: "Inlägg skapat" });
       }
       closeDialog();
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to save post",
+        title: "Fel",
+        description: "Kunde inte spara inlägg",
         variant: "destructive",
       });
     }
@@ -136,11 +136,11 @@ export default function Blog() {
     try {
       const updated = await blogService.publish(id);
       setPosts(posts.map((p) => (p.id === id ? updated : p)));
-      toast({ title: "Success", description: "Post published successfully" });
+      toast({ title: "Klart", description: "Inlägg publicerat" });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to publish post",
+        title: "Fel",
+        description: "Kunde inte publicera inlägg",
         variant: "destructive",
       });
     }
@@ -150,11 +150,11 @@ export default function Blog() {
     try {
       await blogService.delete(id);
       setPosts(posts.filter((p) => p.id !== id));
-      toast({ title: "Success", description: "Post deleted successfully" });
+      toast({ title: "Klart", description: "Inlägg borttaget" });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete post",
+        title: "Fel",
+        description: "Kunde inte ta bort inlägg",
         variant: "destructive",
       });
     }
@@ -189,7 +189,7 @@ export default function Blog() {
   const columns = [
     {
       key: "title",
-      header: "Post",
+      header: "Inlägg",
       render: (post: BlogPost) => (
         <div className="flex items-start gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
@@ -206,18 +206,18 @@ export default function Blog() {
     },
     {
       key: "category",
-      header: "Category",
+      header: "Kategori",
       render: (post: BlogPost) => (
         <Badge variant="secondary">{post.category}</Badge>
       ),
     },
-    { key: "author", header: "Author" },
+    { key: "author", header: "Författare" },
     {
       key: "date",
-      header: "Date",
+      header: "Datum",
       render: (post: BlogPost) => (
         <span className="text-sm text-muted-foreground">
-          {new Date(post.updatedAt).toLocaleDateString()}
+          {new Date(post.updatedAt).toLocaleDateString("sv-SE")}
         </span>
       ),
     },
@@ -244,14 +244,14 @@ export default function Blog() {
                 setIsViewDialogOpen(true);
               }}
             >
-              <Eye className="mr-2 h-4 w-4" /> Preview
+              <Eye className="mr-2 h-4 w-4" /> Förhandsgranska
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openEditDialog(post)}>
-              <Pencil className="mr-2 h-4 w-4" /> Edit
+              <Pencil className="mr-2 h-4 w-4" /> Redigera
             </DropdownMenuItem>
             {post.status === "Draft" && (
               <DropdownMenuItem onClick={() => handlePublish(post.id)}>
-                <Send className="mr-2 h-4 w-4" /> Publish
+                <Send className="mr-2 h-4 w-4" /> Publicera
               </DropdownMenuItem>
             )}
             <DropdownMenuSeparator />
@@ -259,7 +259,7 @@ export default function Blog() {
               onClick={() => handleDelete(post.id)}
               className="text-destructive"
             >
-              <Trash2 className="mr-2 h-4 w-4" /> Delete
+              <Trash2 className="mr-2 h-4 w-4" /> Ta bort
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -268,12 +268,12 @@ export default function Blog() {
   ];
 
   return (
-    <AdminLayout title="Blog" description="Manage blog posts and content">
+    <AdminLayout title="Blogg" description="Hantera blogginlägg och innehåll">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <SearchInput
           value={search}
           onChange={setSearch}
-          placeholder="Search posts..."
+          placeholder="Sök inlägg..."
           className="w-full sm:w-80"
         />
         <Dialog
@@ -285,57 +285,57 @@ export default function Blog() {
         >
           <DialogTrigger asChild>
             <Button className="gap-2">
-              <Plus className="h-4 w-4" /> New Post
+              <Plus className="h-4 w-4" /> Nytt Inlägg
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingPost ? "Edit Post" : "Create New Post"}
+                {editingPost ? "Redigera Inlägg" : "Skapa Nytt Inlägg"}
               </DialogTitle>
               <DialogDescription>
-                Write and manage your blog content.
+                Skriv och hantera ditt blogginnehåll.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">Titel</Label>
                 <Input
                   id="title"
                   value={formData.title}
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
                   }
-                  placeholder="Enter post title"
+                  placeholder="Ange inläggets titel"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="excerpt">Excerpt</Label>
+                <Label htmlFor="excerpt">Sammanfattning</Label>
                 <Textarea
                   id="excerpt"
                   value={formData.excerpt}
                   onChange={(e) =>
                     setFormData({ ...formData, excerpt: e.target.value })
                   }
-                  placeholder="Brief summary of the post"
+                  placeholder="Kort sammanfattning av inlägget"
                   rows={2}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="content">Content</Label>
+                <Label htmlFor="content">Innehåll</Label>
                 <Textarea
                   id="content"
                   value={formData.content}
                   onChange={(e) =>
                     setFormData({ ...formData, content: e.target.value })
                   }
-                  placeholder="Write your post content here..."
+                  placeholder="Skriv ditt inlägg här..."
                   rows={8}
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Category</Label>
+                  <Label>Kategori</Label>
                   <Select
                     value={formData.category}
                     onValueChange={(value) =>
@@ -346,11 +346,11 @@ export default function Blog() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="News">News</SelectItem>
-                      <SelectItem value="Health Tips">Health Tips</SelectItem>
-                      <SelectItem value="Training">Training</SelectItem>
-                      <SelectItem value="Nutrition">Nutrition</SelectItem>
-                      <SelectItem value="Events">Events</SelectItem>
+                      <SelectItem value="News">Nyheter</SelectItem>
+                      <SelectItem value="Health Tips">Hälsotips</SelectItem>
+                      <SelectItem value="Training">Träning</SelectItem>
+                      <SelectItem value="Nutrition">Kost</SelectItem>
+                      <SelectItem value="Events">Evenemang</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -369,31 +369,31 @@ export default function Blog() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Draft">Draft</SelectItem>
-                      <SelectItem value="Published">Published</SelectItem>
-                      <SelectItem value="Archived">Archived</SelectItem>
+                      <SelectItem value="Draft">Utkast</SelectItem>
+                      <SelectItem value="Published">Publicerad</SelectItem>
+                      <SelectItem value="Archived">Arkiverad</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="tags">Tags (comma-separated)</Label>
+                <Label htmlFor="tags">Taggar (kommaseparerade)</Label>
                 <Input
                   id="tags"
                   value={formData.tags}
                   onChange={(e) =>
                     setFormData({ ...formData, tags: e.target.value })
                   }
-                  placeholder="fitness, health, tips"
+                  placeholder="fitness, hälsa, tips"
                 />
               </div>
             </div>
             <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={closeDialog}>
-                Cancel
+                Avbryt
               </Button>
               <Button onClick={handleSubmit}>
-                {editingPost ? "Update" : "Create"} Post
+                {editingPost ? "Uppdatera" : "Skapa"} Inlägg
               </Button>
             </div>
           </DialogContent>
@@ -404,13 +404,13 @@ export default function Blog() {
         columns={columns}
         data={filteredPosts}
         isLoading={isLoading}
-        emptyMessage="No blog posts found"
+        emptyMessage="Inga blogginlägg hittades"
       />
 
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Post Preview</DialogTitle>
+            <DialogTitle>Förhandsgranskning</DialogTitle>
           </DialogHeader>
           {selectedPost && (
             <article className="space-y-4">
@@ -421,8 +421,8 @@ export default function Blog() {
               <h2 className="text-2xl font-bold">{selectedPost.title}</h2>
               <p className="text-muted-foreground">{selectedPost.excerpt}</p>
               <div className="text-sm text-muted-foreground">
-                By {selectedPost.author} •{" "}
-                {new Date(selectedPost.updatedAt).toLocaleDateString()}
+                Av {selectedPost.author} •{" "}
+                {new Date(selectedPost.updatedAt).toLocaleDateString("sv-SE")}
               </div>
               <hr className="border-border" />
               <div

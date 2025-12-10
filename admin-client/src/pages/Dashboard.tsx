@@ -45,33 +45,33 @@ export default function Dashboard() {
   };
 
   return (
-    <AdminLayout title="Dashboard" description="Översikt över systemstatus">
+    <AdminLayout title="Översikt" description="Översikt av ditt hälsocenter">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatsCard
-          title="Antal Kunder"
+          title="Totalt Medlemmar"
           value={stats?.totalMembers || 0}
-          subtitle={`${stats?.activeMembers || 0} active`}
+          subtitle={`${stats?.activeMembers || 0} aktiva`}
           icon={Users}
           variant="primary"
         />
         <StatsCard
-          title="Prenumerationsplaner"
+          title="Abonnemang"
           value={stats?.totalSubscriptions || 0}
-          subtitle={`${stats?.activeSubscriptions || 0} active`}
+          subtitle={`${stats?.activeSubscriptions || 0} aktiva`}
           icon={CreditCard}
           variant="success"
         />
         <StatsCard
           title="Anläggningar"
           value={stats?.totalFacilities || 0}
-          subtitle={`${stats?.availableFacilities || 0} available`}
+          subtitle={`${stats?.availableFacilities || 0} tillgängliga`}
           icon={Building2}
           variant="info"
         />
         <StatsCard
-          title="Antal Nyheter"
+          title="Blogginlägg"
           value={stats?.totalBlogPosts || 0}
-          subtitle={`${stats?.publishedPosts || 0} published`}
+          subtitle={`${stats?.publishedPosts || 0} publicerade`}
           icon={FileText}
           variant="warning"
         />
@@ -80,12 +80,13 @@ export default function Dashboard() {
       <div className="mt-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Snabba åtgärder</CardTitle>
+            <CardTitle className="text-lg">Snabbåtgärder</CardTitle>
+            <CardDescription>Vanliga uppgifter du kan utföra</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-3">
             <Button onClick={() => navigate("/members")} className="gap-2">
               <UserPlus className="h-4 w-4" />
-              Lägg till medlem
+              Lägg till Medlem
             </Button>
             <Button
               variant="outline"
@@ -93,7 +94,7 @@ export default function Dashboard() {
               className="gap-2"
             >
               <CalendarPlus className="h-4 w-4" />
-              Skapa Nyhetsinlägg
+              Skapa Blogginlägg
             </Button>
             <Button
               variant="outline"
@@ -101,7 +102,7 @@ export default function Dashboard() {
               className="gap-2"
             >
               <CreditCard className="h-4 w-4" />
-              Hantera prenumerationer
+              Hantera Abonnemang
             </Button>
           </CardContent>
         </Card>
@@ -111,8 +112,8 @@ export default function Dashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-lg">Senaste</CardTitle>
-              <CardDescription>Senaste kundregistr</CardDescription>
+              <CardTitle className="text-lg">Senaste Medlemmar</CardTitle>
+              <CardDescription>Nyaste registreringar</CardDescription>
             </div>
             <Button
               variant="ghost"
@@ -120,13 +121,13 @@ export default function Dashboard() {
               onClick={() => navigate("/members")}
               className="gap-1"
             >
-              View all <ArrowRight className="h-4 w-4" />
+              Visa alla <ArrowRight className="h-4 w-4" />
             </Button>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {isLoading ? (
-                <p className="text-sm text-muted-foreground">Loading...</p>
+                <p className="text-sm text-muted-foreground">Laddar...</p>
               ) : stats?.recentMembers?.length ? (
                 stats.recentMembers.map((member) => (
                   <div key={member.id} className="flex items-center gap-3">
@@ -149,7 +150,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  No recent members
+                  Inga senaste medlemmar
                 </p>
               )}
             </div>
@@ -159,8 +160,8 @@ export default function Dashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-lg">Recent Blog Posts</CardTitle>
-              <CardDescription>Latest content updates</CardDescription>
+              <CardTitle className="text-lg">Senaste Blogginlägg</CardTitle>
+              <CardDescription>Senaste innehållsuppdateringar</CardDescription>
             </div>
             <Button
               variant="ghost"
@@ -168,13 +169,13 @@ export default function Dashboard() {
               onClick={() => navigate("/blog")}
               className="gap-1"
             >
-              View all <ArrowRight className="h-4 w-4" />
+              Visa alla <ArrowRight className="h-4 w-4" />
             </Button>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {isLoading ? (
-                <p className="text-sm text-muted-foreground">Loading...</p>
+                <p className="text-sm text-muted-foreground">Laddar...</p>
               ) : stats?.recentPosts?.length ? (
                 stats.recentPosts.map((post) => (
                   <div key={post.id} className="space-y-1">
@@ -185,13 +186,15 @@ export default function Dashboard() {
                       <StatusBadge status={post.status} />
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      By {post.author} •{" "}
-                      {new Date(post.createdAt).toLocaleDateString()}
+                      Av {post.author} •{" "}
+                      {new Date(post.createdAt).toLocaleDateString("sv-SE")}
                     </p>
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-muted-foreground">No recent posts</p>
+                <p className="text-sm text-muted-foreground">
+                  Inga senaste inlägg
+                </p>
               )}
             </div>
           </CardContent>

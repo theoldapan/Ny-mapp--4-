@@ -15,23 +15,24 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-    "http://localhost:5173",   // Changed from https to http
-    "https://localhost:5173",
-    "http://localhost:7015",
-    "https://localhost:7015"
-)
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+            "http://localhost:5173",   // admin-client
+            "https://localhost:5173",
+            "http://localhost:5174",   // user-client
+            "https://localhost:5174",
+            "http://localhost:7015",   // backend
+            "https://localhost:7015"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
     });
 
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.WithOrigins("*").AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("*")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 

@@ -33,14 +33,14 @@ export default function Login() {
     try {
       await login(email, password);
       toast({
-        title: "Welcome back!",
-        description: "You have successfully logged in.",
+        title: "Välkommen tillbaka!",
+        description: "Du har loggat in.",
       });
     } catch (error) {
       toast({
-        title: "Login failed",
+        title: "Inloggning misslyckades",
         description:
-          error instanceof Error ? error.message : "Invalid credentials",
+          error instanceof Error ? error.message : "Felaktiga uppgifter",
         variant: "destructive",
       });
       setIsLoading(false);
@@ -57,14 +57,14 @@ export default function Login() {
           <div>
             <CardTitle className="text-2xl font-bold">Hälsoprofilen</CardTitle>
             <CardDescription className="mt-2">
-              Sign in to access the admin dashboard
+              Logga in för att komma åt adminpanelen
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">E-post</Label>
               <Input
                 id="email"
                 type="email"
@@ -76,7 +76,7 @@ export default function Login() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Lösenord</Label>
               <Input
                 id="password"
                 type="password"
@@ -91,21 +91,21 @@ export default function Login() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing in...
+                  Loggar in...
                 </>
               ) : (
-                "Sign in"
+                "Logga in"
               )}
             </Button>
           </form>
 
           <div className="mt-6 rounded-lg bg-muted p-4">
             <p className="text-xs text-muted-foreground">
-              <strong>Demo credentials:</strong>
+              <strong>Demo-uppgifter:</strong>
               <br />
-              Email: admin@halsoprofilen.se
+              E-post: admin@halsoprofilen.se
               <br />
-              Password: admin123
+              Lösenord: admin123
             </p>
           </div>
         </CardContent>

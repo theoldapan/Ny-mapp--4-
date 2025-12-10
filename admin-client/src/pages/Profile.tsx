@@ -52,8 +52,8 @@ export default function Profile() {
       !profileData.email.trim()
     ) {
       toast({
-        title: "Validation Error",
-        description: "All fields are required",
+        title: "Valideringsfel",
+        description: "Alla fält krävs",
         variant: "destructive",
       });
       return;
@@ -65,13 +65,13 @@ export default function Profile() {
 
       const updatedUser = { ...user, ...profileData };
       localStorage.setItem("auth_user", JSON.stringify(updatedUser));
-      toast({ title: "Success", description: "Profile updated successfully" });
+      toast({ title: "Klart", description: "Profil uppdaterad" });
 
       window.location.reload();
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update profile",
+        title: "Fel",
+        description: "Kunde inte uppdatera profil",
         variant: "destructive",
       });
     } finally {
@@ -86,24 +86,24 @@ export default function Profile() {
       !passwordData.confirmPassword
     ) {
       toast({
-        title: "Validation Error",
-        description: "All password fields are required",
+        title: "Valideringsfel",
+        description: "Alla lösenordsfält krävs",
         variant: "destructive",
       });
       return;
     }
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       toast({
-        title: "Validation Error",
-        description: "New passwords do not match",
+        title: "Valideringsfel",
+        description: "Nya lösenord matchar inte",
         variant: "destructive",
       });
       return;
     }
     if (passwordData.newPassword.length < 8) {
       toast({
-        title: "Validation Error",
-        description: "Password must be at least 8 characters",
+        title: "Valideringsfel",
+        description: "Lösenord måste vara minst 8 tecken",
         variant: "destructive",
       });
       return;
@@ -112,7 +112,7 @@ export default function Profile() {
     setIsPasswordLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      toast({ title: "Success", description: "Password changed successfully" });
+      toast({ title: "Klart", description: "Lösenord ändrat" });
       setPasswordData({
         currentPassword: "",
         newPassword: "",
@@ -120,8 +120,8 @@ export default function Profile() {
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to change password",
+        title: "Fel",
+        description: "Kunde inte ändra lösenord",
         variant: "destructive",
       });
     } finally {
@@ -148,8 +148,8 @@ export default function Profile() {
 
   return (
     <AdminLayout
-      title="Profile Settings"
-      description="Manage your account settings"
+      title="Profilinställningar"
+      description="Hantera dina kontoinställningar"
     >
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-1">
@@ -176,7 +176,7 @@ export default function Profile() {
             <div className="space-y-3 text-sm">
               <div className="flex items-center gap-3 text-muted-foreground">
                 <Shield className="h-4 w-4" />
-                <span>Role: {user.role}</span>
+                <span>Roll: {user.role}</span>
               </div>
               <div className="flex items-center gap-3 text-muted-foreground">
                 <Mail className="h-4 w-4" />
@@ -185,14 +185,15 @@ export default function Profile() {
               <div className="flex items-center gap-3 text-muted-foreground">
                 <Calendar className="h-4 w-4" />
                 <span>
-                  Joined: {new Date(user.createdAt).toLocaleDateString()}
+                  Registrerad: {new Date(user.createdAt).toLocaleDateString()}
                 </span>
               </div>
               {user.lastLogin && (
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <Clock className="h-4 w-4" />
                   <span>
-                    Last login: {new Date(user.lastLogin).toLocaleString()}
+                    Senaste inloggning:{" "}
+                    {new Date(user.lastLogin).toLocaleString()}
                   </span>
                 </div>
               )}
@@ -205,16 +206,16 @@ export default function Profile() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
-                Profile Information
+                Profilinformation
               </CardTitle>
               <CardDescription>
-                Update your personal information
+                Uppdatera din personliga information
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName">Förnamn</Label>
                   <Input
                     id="firstName"
                     value={profileData.firstName}
@@ -227,7 +228,7 @@ export default function Profile() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName">Efternamn</Label>
                   <Input
                     id="lastName"
                     value={profileData.lastName}
@@ -241,7 +242,7 @@ export default function Profile() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">E-postadress</Label>
                 <Input
                   id="email"
                   type="email"
@@ -262,7 +263,7 @@ export default function Profile() {
                   ) : (
                     <Save className="h-4 w-4" />
                   )}
-                  Save Changes
+                  Spara ändringar
                 </Button>
               </div>
             </CardContent>
@@ -272,15 +273,15 @@ export default function Profile() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Shield className="h-5 w-5" />
-                Change Password
+                Ändra lösenord
               </CardTitle>
               <CardDescription>
-                Update your password to keep your account secure
+                Uppdatera ditt lösenord för att hålla kontot säkert
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="currentPassword">Current Password</Label>
+                <Label htmlFor="currentPassword">Nuvarande lösenord</Label>
                 <Input
                   id="currentPassword"
                   type="password"
@@ -295,7 +296,7 @@ export default function Profile() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="newPassword">New Password</Label>
+                  <Label htmlFor="newPassword">Nytt lösenord</Label>
                   <Input
                     id="newPassword"
                     type="password"
@@ -309,7 +310,9 @@ export default function Profile() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                  <Label htmlFor="confirmPassword">
+                    Bekräfta nytt lösenord
+                  </Label>
                   <Input
                     id="confirmPassword"
                     type="password"
@@ -324,7 +327,7 @@ export default function Profile() {
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
-                Password must be at least 8 characters long
+                Lösenord måste vara minst 8 tecken långt
               </p>
               <div className="flex justify-end">
                 <Button
@@ -338,7 +341,7 @@ export default function Profile() {
                   ) : (
                     <Shield className="h-4 w-4" />
                   )}
-                  Change Password
+                  Ändra lösenord
                 </Button>
               </div>
             </CardContent>

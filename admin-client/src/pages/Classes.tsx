@@ -52,25 +52,25 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DAYS_OF_WEEK = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  "Söndag",
+  "Måndag",
+  "Tisdag",
+  "Onsdag",
+  "Torsdag",
+  "Fredag",
+  "Lördag",
 ];
 const CATEGORIES = [
   "Yoga",
-  "Cardio",
-  "Strength",
-  "Flexibility",
-  "Combat",
-  "Dance",
-  "Aqua",
-  "Other",
+  "Kondition",
+  "Styrka",
+  "Flexibilitet",
+  "Kampsport",
+  "Dans",
+  "Vatten",
+  "Övrigt",
 ];
-const LEVELS = ["Beginner", "Intermediate", "Advanced", "All Levels"];
+const LEVELS = ["Nybörjare", "Medel", "Avancerad", "Alla nivåer"];
 
 export default function Classes() {
   const [classes, setClasses] = useState<GymClass[]>([]);
@@ -121,8 +121,8 @@ export default function Classes() {
       setClasses(data);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to load classes",
+        title: "Fel",
+        description: "Kunde inte ladda klasser",
         variant: "destructive",
       });
     } finally {
@@ -133,55 +133,29 @@ export default function Classes() {
   const handleSubmit = async () => {
     if (!formData.name.trim() || !formData.instructorName.trim()) {
       toast({
-        title: "Validation Error",
-        description: "Name and instructor are required",
+        title: "Valideringsfel",
+        description: "Namn och instruktör krävs",
         variant: "destructive",
       });
       return;
     }
-
     try {
-      const classData: any = {
-        name: formData.name,
-        description: formData.description,
-        instructorName: formData.instructorName,
-        dayOfWeek: formData.dayOfWeek,
-        startTime: formData.startTime,
-        endTime: formData.endTime,
-        capacity: formData.capacity,
-        level: formData.level,
-        category: formData.category,
-        isActive: formData.isActive,
-      };
-
-      if (formData.instructorId && formData.instructorId.trim() !== "") {
-        classData.instructorId = formData.instructorId;
-      }
-
-      if (formData.facilityId && formData.facilityId.trim() !== "") {
-        classData.facilityId = formData.facilityId;
-      }
-
-      if (formData.facilityName && formData.facilityName.trim() !== "") {
-        classData.facilityName = formData.facilityName;
-      }
-
       if (editingClass) {
-        const updated = await classService.update(editingClass.id, classData);
+        const updated = await classService.update(editingClass.id, formData);
         setClasses(
           classes.map((c) => (c.id === editingClass.id ? updated : c))
         );
-        toast({ title: "Success", description: "Class updated successfully" });
+        toast({ title: "Klart", description: "Klass uppdaterad" });
       } else {
-        const newClass = await classService.create(classData);
+        const newClass = await classService.create(formData);
         setClasses([...classes, newClass]);
-        toast({ title: "Success", description: "Class created successfully" });
+        toast({ title: "Klart", description: "Klass skapad" });
       }
       closeDialog();
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to save class",
+        title: "Fel",
+        description: "Kunde inte spara klass",
         variant: "destructive",
       });
     }
@@ -191,11 +165,11 @@ export default function Classes() {
     try {
       await classService.delete(id);
       setClasses(classes.filter((c) => c.id !== id));
-      toast({ title: "Success", description: "Class deleted successfully" });
+      toast({ title: "Klart", description: "Klass borttagen" });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete class",
+        title: "Fel",
+        description: "Kunde inte ta bort klass",
         variant: "destructive",
       });
     }
@@ -258,24 +232,21 @@ export default function Classes() {
     filteredClasses.filter((c) => c.dayOfWeek === day);
 
   return (
-    <AdminLayout
-      title="Class Schedule"
-      description="Manage group fitness classes"
-    >
+    <AdminLayout title="Klassschema" description="Hantera gruppträningsklasser">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col sm:flex-row gap-4">
           <SearchInput
             value={search}
             onChange={setSearch}
-            placeholder="Search classes..."
+            placeholder="Sök klasser..."
             className="w-full sm:w-64"
           />
           <Select value={selectedDay} onValueChange={setSelectedDay}>
             <SelectTrigger className="w-full sm:w-40">
-              <SelectValue placeholder="Filter by day" />
+              <SelectValue placeholder="Filtrera efter dag" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Days</SelectItem>
+              <SelectItem value="all">Alla dagar</SelectItem>
               {DAYS_OF_WEEK.map((day, i) => (
                 <SelectItem key={i} value={i.toString()}>
                   {day}
@@ -293,32 +264,30 @@ export default function Classes() {
         >
           <DialogTrigger asChild>
             <Button className="gap-2">
-              <Plus className="h-4 w-4" /> Add Class
+              <Plus className="h-4 w-4" /> Lägg till klass
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingClass ? "Edit Class" : "Add New Class"}
+                {editingClass ? "Redigera klass" : "Lägg till ny klass"}
               </DialogTitle>
-              <DialogDescription>
-                Configure class schedule details.
-              </DialogDescription>
+              <DialogDescription>Konfigurera klassdetaljer.</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Class Name *</Label>
+                <Label htmlFor="name">Klassnamn *</Label>
                 <Input
                   id="name"
                   value={formData.name}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  placeholder="e.g., Morning Yoga"
+                  placeholder="t.ex. Morgonyoga"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Beskrivning</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
@@ -330,7 +299,7 @@ export default function Classes() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="instructor">Instructor *</Label>
+                  <Label htmlFor="instructor">Instruktör *</Label>
                   <Input
                     id="instructor"
                     value={formData.instructorName}
@@ -343,7 +312,7 @@ export default function Classes() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="facility">Facility/Room</Label>
+                  <Label htmlFor="facility">Lokal/Rum</Label>
                   <Input
                     id="facility"
                     value={formData.facilityName}
@@ -355,7 +324,7 @@ export default function Classes() {
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label>Day</Label>
+                  <Label>Dag</Label>
                   <Select
                     value={formData.dayOfWeek.toString()}
                     onValueChange={(v) =>
@@ -375,7 +344,7 @@ export default function Classes() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="startTime">Start Time</Label>
+                  <Label htmlFor="startTime">Starttid</Label>
                   <Input
                     id="startTime"
                     type="time"
@@ -386,7 +355,7 @@ export default function Classes() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="endTime">End Time</Label>
+                  <Label htmlFor="endTime">Sluttid</Label>
                   <Input
                     id="endTime"
                     type="time"
@@ -399,7 +368,7 @@ export default function Classes() {
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="capacity">Capacity</Label>
+                  <Label htmlFor="capacity">Kapacitet</Label>
                   <Input
                     id="capacity"
                     type="number"
@@ -413,7 +382,7 @@ export default function Classes() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Level</Label>
+                  <Label>Nivå</Label>
                   <Select
                     value={formData.level}
                     onValueChange={(v) =>
@@ -436,7 +405,7 @@ export default function Classes() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label>Category</Label>
+                  <Label>Kategori</Label>
                   <Select
                     value={formData.category}
                     onValueChange={(v) =>
@@ -459,10 +428,10 @@ export default function Classes() {
             </div>
             <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={closeDialog}>
-                Cancel
+                Avbryt
               </Button>
               <Button onClick={handleSubmit}>
-                {editingClass ? "Update" : "Add"} Class
+                {editingClass ? "Uppdatera" : "Lägg till"} klass
               </Button>
             </div>
           </DialogContent>
@@ -471,8 +440,8 @@ export default function Classes() {
 
       <Tabs defaultValue="grid" className="w-full">
         <TabsList className="mb-4">
-          <TabsTrigger value="grid">Grid View</TabsTrigger>
-          <TabsTrigger value="weekly">Weekly Schedule</TabsTrigger>
+          <TabsTrigger value="grid">Rutnätsvy</TabsTrigger>
+          <TabsTrigger value="weekly">Veckoschema</TabsTrigger>
         </TabsList>
 
         <TabsContent value="grid">
@@ -489,7 +458,7 @@ export default function Classes() {
           ) : filteredClasses.length === 0 ? (
             <Card>
               <CardContent className="py-12 text-center text-muted-foreground">
-                No classes found.
+                Inga klasser hittades.
               </CardContent>
             </Card>
           ) : (
@@ -507,13 +476,13 @@ export default function Classes() {
                         <DropdownMenuItem
                           onClick={() => openEditDialog(gymClass)}
                         >
-                          <Pencil className="mr-2 h-4 w-4" /> Edit
+                          <Pencil className="mr-2 h-4 w-4" /> Redigera
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleDelete(gymClass.id)}
                           className="text-destructive"
                         >
-                          <Trash2 className="mr-2 h-4 w-4" /> Delete
+                          <Trash2 className="mr-2 h-4 w-4" /> Ta bort
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -565,7 +534,7 @@ export default function Classes() {
                             : ""
                         }
                       >
-                        {gymClass.enrolled} / {gymClass.capacity} enrolled
+                        {gymClass.enrolled} / {gymClass.capacity} anmälda
                       </span>
                     </div>
                   </CardContent>

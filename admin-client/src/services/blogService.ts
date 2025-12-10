@@ -33,8 +33,12 @@ export const blogService = {
   },
 
   publish: async (id: string): Promise<BlogPost> => {
-    return apiFetch<BlogPost>(`/blog/${id}/publish`, {
-      method: "POST",
+    return apiFetch<BlogPost>(`/blog/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        status: "Published",
+        publishedAt: new Date().toISOString(),
+      }),
     });
   },
 };

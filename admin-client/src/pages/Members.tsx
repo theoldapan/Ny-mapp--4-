@@ -45,170 +45,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 
-const MemberFormFields = ({
-  formData,
-  setFormData,
-}: {
-  formData: any;
-  setFormData: (data: any) => void;
-}) => (
-  <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto pr-2">
-    <div className="grid grid-cols-2 gap-4">
-      <div className="space-y-2">
-        <Label htmlFor="firstName">First Name *</Label>
-        <Input
-          id="firstName"
-          value={formData.firstName}
-          onChange={(e) =>
-            setFormData({ ...formData, firstName: e.target.value })
-          }
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="lastName">Last Name *</Label>
-        <Input
-          id="lastName"
-          value={formData.lastName}
-          onChange={(e) =>
-            setFormData({ ...formData, lastName: e.target.value })
-          }
-        />
-      </div>
-    </div>
-    <div className="space-y-2">
-      <Label htmlFor="email">Email *</Label>
-      <Input
-        id="email"
-        type="email"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-      />
-    </div>
-    <div className="grid grid-cols-2 gap-4">
-      <div className="space-y-2">
-        <Label htmlFor="phone">Phone</Label>
-        <Input
-          id="phone"
-          value={formData.phone}
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="dateOfBirth">Date of Birth</Label>
-        <Input
-          id="dateOfBirth"
-          type="date"
-          value={formData.dateOfBirth}
-          onChange={(e) =>
-            setFormData({ ...formData, dateOfBirth: e.target.value })
-          }
-        />
-      </div>
-    </div>
-    <div className="grid grid-cols-2 gap-4">
-      <div className="space-y-2">
-        <Label htmlFor="gender">Gender</Label>
-        <Select
-          value={formData.gender}
-          onValueChange={(value) =>
-            setFormData({ ...formData, gender: value as Member["gender"] })
-          }
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Male">Male</SelectItem>
-            <SelectItem value="Female">Female</SelectItem>
-            <SelectItem value="Other">Other</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="status">Membership Status</Label>
-        <Select
-          value={formData.membershipStatus}
-          onValueChange={(value) =>
-            setFormData({
-              ...formData,
-              membershipStatus: value as Member["membershipStatus"],
-            })
-          }
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Active">Active</SelectItem>
-            <SelectItem value="Inactive">Inactive</SelectItem>
-            <SelectItem value="Suspended">Suspended</SelectItem>
-            <SelectItem value="Expired">Expired</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
-    <div className="space-y-2">
-      <Label htmlFor="address">Address</Label>
-      <Input
-        id="address"
-        value={formData.address}
-        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-      />
-    </div>
-    <div className="grid grid-cols-2 gap-4">
-      <div className="space-y-2">
-        <Label htmlFor="city">City</Label>
-        <Input
-          id="city"
-          value={formData.city}
-          onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="postalCode">Postal Code</Label>
-        <Input
-          id="postalCode"
-          value={formData.postalCode}
-          onChange={(e) =>
-            setFormData({ ...formData, postalCode: e.target.value })
-          }
-        />
-      </div>
-    </div>
-    <div className="grid grid-cols-2 gap-4">
-      <div className="space-y-2">
-        <Label htmlFor="emergencyContact">Emergency Contact</Label>
-        <Input
-          id="emergencyContact"
-          value={formData.emergencyContact}
-          onChange={(e) =>
-            setFormData({ ...formData, emergencyContact: e.target.value })
-          }
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="emergencyPhone">Emergency Phone</Label>
-        <Input
-          id="emergencyPhone"
-          value={formData.emergencyPhone}
-          onChange={(e) =>
-            setFormData({ ...formData, emergencyPhone: e.target.value })
-          }
-        />
-      </div>
-    </div>
-    <div className="space-y-2">
-      <Label htmlFor="notes">Notes</Label>
-      <Textarea
-        id="notes"
-        value={formData.notes}
-        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-        rows={3}
-      />
-    </div>
-  </div>
-);
-
 export default function Members() {
   const [members, setMembers] = useState<Member[]>([]);
   const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
@@ -300,8 +136,8 @@ export default function Members() {
     } catch (error) {
       console.error("Failed to load members:", error);
       toast({
-        title: "Error",
-        description: "Failed to load members",
+        title: "Fel",
+        description: "Kunde inte ladda medlemmar",
         variant: "destructive",
       });
     } finally {
@@ -316,57 +152,25 @@ export default function Members() {
       !formData.email.trim()
     ) {
       toast({
-        title: "Validation Error",
-        description: "First name, last name, and email are required",
+        title: "Valideringsfel",
+        description: "Förnamn, efternamn och e-post krävs",
         variant: "destructive",
       });
       return;
     }
-
-    if (!formData.phone.trim()) {
-      toast({
-        title: "Validation Error",
-        description: "Phone number is required",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!formData.dateOfBirth) {
-      toast({
-        title: "Validation Error",
-        description: "Date of birth is required",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const birthDate = new Date(formData.dateOfBirth);
-    const today = new Date();
-    if (birthDate >= today) {
-      toast({
-        title: "Validation Error",
-        description: "Date of birth must be in the past",
-        variant: "destructive",
-      });
-      return;
-    }
-
     try {
       const newMember = await memberService.create({
         ...formData,
-        joinDate: new Date().toISOString(),
+        joinDate: new Date().toISOString().split("T")[0],
       });
       setMembers([...members, newMember]);
       setIsAddDialogOpen(false);
       resetForm();
-      toast({ title: "Success", description: "Member added successfully" });
+      toast({ title: "Klart", description: "Medlem tillagd" });
     } catch (error) {
-      console.error("Error creating member:", error);
       toast({
-        title: "Error",
-        description:
-          error instanceof Error ? error.message : "Failed to add member",
+        title: "Fel",
+        description: "Kunde inte lägga till medlem",
         variant: "destructive",
       });
     }
@@ -380,8 +184,8 @@ export default function Members() {
       !formData.email.trim()
     ) {
       toast({
-        title: "Validation Error",
-        description: "First name, last name, and email are required",
+        title: "Valideringsfel",
+        description: "Förnamn, efternamn och e-post krävs",
         variant: "destructive",
       });
       return;
@@ -392,11 +196,11 @@ export default function Members() {
       setIsEditDialogOpen(false);
       setEditingMember(null);
       resetForm();
-      toast({ title: "Success", description: "Member updated successfully" });
+      toast({ title: "Klart", description: "Medlem uppdaterad" });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update member",
+        title: "Fel",
+        description: "Kunde inte uppdatera medlem",
         variant: "destructive",
       });
     }
@@ -406,11 +210,11 @@ export default function Members() {
     try {
       await memberService.delete(id);
       setMembers(members.filter((m) => m.id !== id));
-      toast({ title: "Success", description: "Member deleted successfully" });
+      toast({ title: "Klart", description: "Medlem borttagen" });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete member",
+        title: "Fel",
+        description: "Kunde inte ta bort medlem",
         variant: "destructive",
       });
     }
@@ -441,6 +245,168 @@ export default function Members() {
     setEditingMember(null);
   };
 
+  const MemberFormFields = () => (
+    <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto pr-2">
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="firstName">Förnamn *</Label>
+          <Input
+            id="firstName"
+            value={formData.firstName}
+            onChange={(e) =>
+              setFormData({ ...formData, firstName: e.target.value })
+            }
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="lastName">Efternamn *</Label>
+          <Input
+            id="lastName"
+            value={formData.lastName}
+            onChange={(e) =>
+              setFormData({ ...formData, lastName: e.target.value })
+            }
+          />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="email">E-post *</Label>
+        <Input
+          id="email"
+          type="email"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="phone">Telefon</Label>
+          <Input
+            id="phone"
+            value={formData.phone}
+            onChange={(e) =>
+              setFormData({ ...formData, phone: e.target.value })
+            }
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="dateOfBirth">Födelsedatum</Label>
+          <Input
+            id="dateOfBirth"
+            type="date"
+            value={formData.dateOfBirth}
+            onChange={(e) =>
+              setFormData({ ...formData, dateOfBirth: e.target.value })
+            }
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="gender">Kön</Label>
+          <Select
+            value={formData.gender}
+            onValueChange={(value) =>
+              setFormData({ ...formData, gender: value as Member["gender"] })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Male">Man</SelectItem>
+              <SelectItem value="Female">Kvinna</SelectItem>
+              <SelectItem value="Other">Annat</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="status">Medlemsstatus</Label>
+          <Select
+            value={formData.membershipStatus}
+            onValueChange={(value) =>
+              setFormData({
+                ...formData,
+                membershipStatus: value as Member["membershipStatus"],
+              })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Active">Aktiv</SelectItem>
+              <SelectItem value="Inactive">Inaktiv</SelectItem>
+              <SelectItem value="Suspended">Avstängd</SelectItem>
+              <SelectItem value="Expired">Utgången</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="address">Adress</Label>
+        <Input
+          id="address"
+          value={formData.address}
+          onChange={(e) =>
+            setFormData({ ...formData, address: e.target.value })
+          }
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="city">Stad</Label>
+          <Input
+            id="city"
+            value={formData.city}
+            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="postalCode">Postnummer</Label>
+          <Input
+            id="postalCode"
+            value={formData.postalCode}
+            onChange={(e) =>
+              setFormData({ ...formData, postalCode: e.target.value })
+            }
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="emergencyContact">Nödkontakt</Label>
+          <Input
+            id="emergencyContact"
+            value={formData.emergencyContact}
+            onChange={(e) =>
+              setFormData({ ...formData, emergencyContact: e.target.value })
+            }
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="emergencyPhone">Nödtelefon</Label>
+          <Input
+            id="emergencyPhone"
+            value={formData.emergencyPhone}
+            onChange={(e) =>
+              setFormData({ ...formData, emergencyPhone: e.target.value })
+            }
+          />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="notes">Anteckningar</Label>
+        <Textarea
+          id="notes"
+          value={formData.notes}
+          onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+          rows={3}
+        />
+      </div>
+    </div>
+  );
+
   const columns = [
     {
       key: "name",
@@ -454,30 +420,19 @@ export default function Members() {
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="font-medium">{member.email}</p>
+            <p className="font-medium">
+              {member.firstName} {member.lastName}
+            </p>
+            <p className="text-xs text-muted-foreground">{member.email}</p>
           </div>
         </div>
       ),
     },
-    { key: "firstName", header: "Förnamn" },
-    { key: "lastName", header: "Efternamn" },
-    { key: "email", header: "Mail" },
     { key: "phone", header: "Telefon" },
-    {
-      key: "Adress",
-      header: "Adress",
-      render: (member: Member) => member.address,
-    },
-    { key: "city", header: "Stad", render: (member: Member) => member.city },
-    { key: "postalCode", header: "Postnummer" },
-    {
-      key: "dateOfBirth",
-      header: "Födelsedatum",
-      render: (member: Member) => member.dateOfBirth,
-    },
+    { key: "city", header: "Stad" },
     {
       key: "joinDate",
-      header: "Medlemsdatum",
+      header: "Startdatum",
       render: (member: Member) =>
         new Date(member.joinDate).toLocaleDateString(),
     },
@@ -506,16 +461,16 @@ export default function Members() {
                 setIsViewDialogOpen(true);
               }}
             >
-              <Eye className="mr-2 h-4 w-4" /> View
+              <Eye className="mr-2 h-4 w-4" /> Visa
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openEditDialog(member)}>
-              <Pencil className="mr-2 h-4 w-4" /> Edit
+              <Pencil className="mr-2 h-4 w-4" /> Redigera
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleDeleteMember(member.id)}
               className="text-destructive"
             >
-              <Trash2 className="mr-2 h-4 w-4" /> Delete
+              <Trash2 className="mr-2 h-4 w-4" /> Ta bort
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -524,29 +479,34 @@ export default function Members() {
   ];
 
   return (
-    <AdminLayout title="Members" description="Manage your gym members">
+    <AdminLayout title="Medlemmar" description="Hantera dina gymmedlemmar">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <SearchInput
           value={search}
           onChange={setSearch}
-          placeholder="Search members..."
+          placeholder="Sök medlemmar..."
           className="w-full sm:w-80"
         />
-
-        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+        <Dialog
+          open={isAddDialogOpen}
+          onOpenChange={(open) => {
+            setIsAddDialogOpen(open);
+            if (!open) resetForm();
+          }}
+        >
           <DialogTrigger asChild>
             <Button className="gap-2">
-              <Plus className="h-4 w-4" /> Lägg Medlem
+              <Plus className="h-4 w-4" /> Lägg till medlem
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>Lägg till Medlem</DialogTitle>
+              <DialogTitle>Lägg till ny medlem</DialogTitle>
               <DialogDescription>
                 Ange medlemmens information nedan.
               </DialogDescription>
             </DialogHeader>
-            <MemberFormFields formData={formData} setFormData={setFormData} />
+            <MemberFormFields />
             <div className="flex justify-end gap-3">
               <Button
                 variant="outline"
@@ -557,7 +517,7 @@ export default function Members() {
               >
                 Avbryt
               </Button>
-              <Button onClick={handleAddMember}>Lägg Medlem</Button>
+              <Button onClick={handleAddMember}>Lägg till medlem</Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -567,18 +527,24 @@ export default function Members() {
         columns={columns}
         data={filteredMembers}
         isLoading={isLoading}
-        emptyMessage="Inga medlemmar hittas"
+        emptyMessage="Inga medlemmar hittades"
       />
 
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+      <Dialog
+        open={isEditDialogOpen}
+        onOpenChange={(open) => {
+          setIsEditDialogOpen(open);
+          if (!open) resetForm();
+        }}
+      >
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Redigera Medlem</DialogTitle>
+            <DialogTitle>Redigera medlem</DialogTitle>
             <DialogDescription>
               Uppdatera medlemmens information.
             </DialogDescription>
           </DialogHeader>
-          <MemberFormFields formData={formData} setFormData={setFormData} />
+          <MemberFormFields />
           <div className="flex justify-end gap-3">
             <Button
               variant="outline"
@@ -589,7 +555,7 @@ export default function Members() {
             >
               Avbryt
             </Button>
-            <Button onClick={handleEditMember}>Save Changes</Button>
+            <Button onClick={handleEditMember}>Spara ändringar</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -597,13 +563,13 @@ export default function Members() {
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Member Details</DialogTitle>
+            <DialogTitle>Medlemsdetaljer</DialogTitle>
           </DialogHeader>
           {selectedMember && (
             <Tabs defaultValue="profile" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="profile">Profil</TabsTrigger>
-                <TabsTrigger value="subscription">Medlemskap</TabsTrigger>
+                <TabsTrigger value="subscription">Prenumeration</TabsTrigger>
               </TabsList>
               <TabsContent value="profile" className="space-y-4 mt-4">
                 <div className="flex items-center gap-4">
@@ -622,33 +588,35 @@ export default function Members() {
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="text-muted-foreground">Mail:</span>
+                    <span className="text-muted-foreground">Email:</span>
                     <p>{selectedMember.email}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Telefon:</span>
+                    <span className="text-muted-foreground">Phone:</span>
                     <p>{selectedMember.phone}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Stad:</span>
+                    <span className="text-muted-foreground">City:</span>
                     <p>{selectedMember.city}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Medlemsdatum:</span>
+                    <span className="text-muted-foreground">Join Date:</span>
                     <p>
                       {new Date(selectedMember.joinDate).toLocaleDateString()}
                     </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Kön:</span>
+                    <span className="text-muted-foreground">Gender:</span>
                     <p>{selectedMember.gender}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Adress:</span>
+                    <span className="text-muted-foreground">Address:</span>
                     <p>{selectedMember.address || "N/A"}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Födelsedatum:</span>
+                    <span className="text-muted-foreground">
+                      Date of Birth:
+                    </span>
                     <p>
                       {selectedMember.dateOfBirth
                         ? new Date(
@@ -658,7 +626,7 @@ export default function Members() {
                     </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Postnummer:</span>
+                    <span className="text-muted-foreground">Postal Code:</span>
                     <p>{selectedMember.postalCode || "N/A"}</p>
                   </div>
                 </div>
@@ -670,13 +638,11 @@ export default function Members() {
                     </h4>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="text-muted-foreground">Namn:</span>
+                        <span className="text-muted-foreground">Name:</span>
                         <p>{selectedMember.emergencyContact || "N/A"}</p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">
-                          Telefonnummer:
-                        </span>
+                        <span className="text-muted-foreground">Phone:</span>
                         <p>{selectedMember.emergencyPhone || "N/A"}</p>
                       </div>
                     </div>
@@ -684,7 +650,7 @@ export default function Members() {
                 )}
                 {selectedMember.notes && (
                   <div className="border-t pt-4 text-sm">
-                    <span className="text-muted-foreground">Noteringar:</span>
+                    <span className="text-muted-foreground">Notes:</span>
                     <p className="mt-1">{selectedMember.notes}</p>
                   </div>
                 )}
@@ -700,7 +666,7 @@ export default function Members() {
                     return (
                       <div className="text-center py-8 text-muted-foreground">
                         <CreditCard className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                        <p>Ingen aktiv medlemskap</p>
+                        <p>No active subscription</p>
                       </div>
                     );
                   }

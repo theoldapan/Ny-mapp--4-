@@ -6,7 +6,7 @@ public class SubscriptionPlan
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
-    public int Duration { get; set; } // in days
+    public int Duration { get; set; }
     public List<string> Features { get; set; } = new();
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -19,8 +19,8 @@ public class MemberSubscription
     public Guid PlanId { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public string Status { get; set; } = "Active"; // Active, Expired, Cancelled
-    public string PaymentStatus { get; set; } = "Pending"; // Paid, Pending, Overdue
+    public string Status { get; set; } = "Active";
+    public string PaymentStatus { get; set; } = "Pending";
     
     public Member? Member { get; set; }
     public SubscriptionPlan? Plan { get; set; }

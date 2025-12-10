@@ -10,7 +10,7 @@ public class Facility
     public string PostalCode { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public string Status { get; set; } = "Open"; // Open, Closed, ComingSoon, Renovating
+    public string Status { get; set; } = "Open";
     public string OpeningHours { get; set; } = string.Empty;
     public int MemberCount { get; set; }
     public Guid? ManagerId { get; set; }

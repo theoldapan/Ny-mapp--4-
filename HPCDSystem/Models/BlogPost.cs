@@ -25,12 +25,12 @@ namespace HPCDSystem.Models
         
         [Required]
         [MaxLength(20)]
-        public string Status { get; set; } = "Draft"; // Draft, Published, Archived
+        public string Status { get; set; } = "Draft";
         
         [MaxLength(100)]
         public string Category { get; set; } = string.Empty;
         
-        public string Tags { get; set; } = string.Empty; // Comma-separated
+        public string Tags { get; set; } = string.Empty;
         
         public string? FeaturedImage { get; set; }
         

@@ -19,12 +19,12 @@ import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 
 const navItems = [
-  { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/members", icon: Users, label: "Kunder" },
-  { to: "/subscriptions", icon: CreditCard, label: "Prenumerationsplaner" },
-  { to: "/classes", icon: CalendarDays, label: "Boka pass" },
+  { to: "/dashboard", icon: LayoutDashboard, label: "Översikt" },
+  { to: "/members", icon: Users, label: "Medlemmar" },
+  { to: "/subscriptions", icon: CreditCard, label: "Abonnemang" },
+  { to: "/classes", icon: CalendarDays, label: "Pass" },
   { to: "/facilities", icon: Building2, label: "Anläggningar" },
-  { to: "/blog", icon: FileText, label: "Nyheter" },
+  { to: "/blog", icon: FileText, label: "Blogg" },
   { to: "/users", icon: UserCog, label: "Användare" },
 ];
 

@@ -79,8 +79,8 @@ export default function Users() {
       setUsers(data);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to load users",
+        title: "Fel",
+        description: "Kunde inte ladda användare",
         variant: "destructive",
       });
     } finally {
@@ -107,8 +107,8 @@ export default function Users() {
       !formData.email.trim()
     ) {
       toast({
-        title: "Validation Error",
-        description: "All fields are required",
+        title: "Valideringsfel",
+        description: "Alla fält krävs",
         variant: "destructive",
       });
       return;
@@ -119,13 +119,13 @@ export default function Users() {
       setIsEditDialogOpen(false);
       setEditingUser(null);
       toast({
-        title: "Success",
-        description: "User updated successfully.",
+        title: "Klart",
+        description: "Användare uppdaterad.",
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update user",
+        title: "Fel",
+        description: "Kunde inte uppdatera användare",
         variant: "destructive",
       });
     }
@@ -139,16 +139,16 @@ export default function Users() {
       !addFormData.password.trim()
     ) {
       toast({
-        title: "Validation Error",
-        description: "All fields are required",
+        title: "Valideringsfel",
+        description: "Alla fält krävs",
         variant: "destructive",
       });
       return;
     }
     if (addFormData.password.length < 6) {
       toast({
-        title: "Validation Error",
-        description: "Password must be at least 6 characters",
+        title: "Valideringsfel",
+        description: "Lösenord måste vara minst 6 tecken",
         variant: "destructive",
       });
       return;
@@ -158,11 +158,11 @@ export default function Users() {
       setUsers([...users, newUser]);
       setIsAddDialogOpen(false);
       resetAddForm();
-      toast({ title: "Success", description: "User created successfully" });
+      toast({ title: "Klart", description: "Användare skapad" });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to create user",
+        title: "Fel",
+        description: "Kunde inte skapa användare",
         variant: "destructive",
       });
     }
@@ -171,8 +171,8 @@ export default function Users() {
   const handleDeleteUser = async (id: string) => {
     if (id === currentUser?.id) {
       toast({
-        title: "Error",
-        description: "Du kan inte ta bort din egen användare.",
+        title: "Fel",
+        description: "Du kan inte ta bort ditt eget konto",
         variant: "destructive",
       });
       return;
@@ -180,11 +180,11 @@ export default function Users() {
     try {
       await userService.delete(id);
       setUsers(users.filter((u) => u.id !== id));
-      toast({ title: "Success", description: "User deleted successfully" });
+      toast({ title: "Klart", description: "Användare borttagen" });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Fel vid borttagning av användare",
+        title: "Fel",
+        description: "Kunde inte ta bort användare",
         variant: "destructive",
       });
     }
@@ -226,11 +226,11 @@ export default function Users() {
   const getRoleDescription = (role: User["role"]) => {
     switch (role) {
       case "Admin":
-        return "Full system kontroll och åtkomst till alla funktioner";
+        return "Full systemåtkomst - kan hantera alla användare, inställningar och data";
       case "Manager":
-        return "Kan hantera medlemmar och anläggningar";
+        return "Kan hantera medlemmar, prenumerationer, anläggningar och blogginnehåll";
       case "Staff":
-        return "Limiterad åtkomst till dagliga operationer";
+        return "Begränsad åtkomst - kan visa och uppdatera medlemsinformation";
       default:
         return "";
     }
@@ -239,7 +239,7 @@ export default function Users() {
   const columns = [
     {
       key: "user",
-      header: "Kund",
+      header: "Användare",
       render: (user: User) => (
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
@@ -271,16 +271,16 @@ export default function Users() {
     },
     {
       key: "createdAt",
-      header: "Gick med",
+      header: "Registrerad",
       render: (user: User) => new Date(user.createdAt).toLocaleDateString(),
     },
     {
       key: "lastLogin",
-      header: "Senast inloggad",
+      header: "Senaste inloggning",
       render: (user: User) =>
         user.lastLogin
           ? new Date(user.lastLogin).toLocaleDateString()
-          : "Never",
+          : "Aldrig",
     },
     {
       key: "actions",
@@ -300,19 +300,19 @@ export default function Users() {
                 setIsViewDialogOpen(true);
               }}
             >
-              <Eye className="mr-2 h-4 w-4" /> View Profile
+              <Eye className="mr-2 h-4 w-4" /> Visa profil
             </DropdownMenuItem>
             {isAdmin && (
               <>
                 <DropdownMenuItem onClick={() => openEditDialog(user)}>
-                  <Pencil className="mr-2 h-4 w-4" /> Edit User
+                  <Pencil className="mr-2 h-4 w-4" /> Redigera användare
                 </DropdownMenuItem>
                 {user.id !== currentUser?.id && (
                   <DropdownMenuItem
                     onClick={() => handleDeleteUser(user.id)}
                     className="text-destructive"
                   >
-                    <Trash2 className="mr-2 h-4 w-4" /> Delete
+                    <Trash2 className="mr-2 h-4 w-4" /> Ta bort
                   </DropdownMenuItem>
                 )}
               </>
@@ -324,18 +324,21 @@ export default function Users() {
   ];
 
   return (
-    <AdminLayout title="Users" description="Manage admin users and roles">
+    <AdminLayout
+      title="Användare"
+      description="Hantera adminanvändare och roller"
+    >
       <div className="mb-6 rounded-lg border border-warning/20 bg-warning/5 p-4">
         <div className="flex items-start gap-3">
           <Shield className="h-5 w-5 text-warning mt-0.5" />
           <div>
             <h4 className="font-medium text-foreground">
-              Role Management Security
+              Säkerhet för rollhantering
             </h4>
             <p className="text-sm text-muted-foreground mt-1">
-              In production, role changes are validated server-side and require
-              proper authorization. Roles should be stored in a separate table
-              with appropriate RLS policies.
+              I produktion valideras rolländringar på serversidan och kräver
+              korrekt auktorisering. Roller bör lagras i en separat tabell med
+              lämpliga RLS-policyer.
             </p>
           </div>
         </div>
@@ -352,20 +355,20 @@ export default function Users() {
           >
             <DialogTrigger asChild>
               <Button className="gap-2">
-                <UserPlus className="h-4 w-4" /> Add User
+                <UserPlus className="h-4 w-4" /> Lägg till användare
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>Add New User</DialogTitle>
+                <DialogTitle>Lägg till ny användare</DialogTitle>
                 <DialogDescription>
-                  Create a new admin user and assign their role.
+                  Skapa en ny adminanvändare och tilldela roll.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="add-firstName">First Name *</Label>
+                    <Label htmlFor="add-firstName">Förnamn *</Label>
                     <Input
                       id="add-firstName"
                       value={addFormData.firstName}
@@ -378,7 +381,7 @@ export default function Users() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="add-lastName">Last Name *</Label>
+                    <Label htmlFor="add-lastName">Efternamn *</Label>
                     <Input
                       id="add-lastName"
                       value={addFormData.lastName}
@@ -392,7 +395,7 @@ export default function Users() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="add-email">Email *</Label>
+                  <Label htmlFor="add-email">E-post *</Label>
                   <Input
                     id="add-email"
                     type="email"
@@ -403,7 +406,7 @@ export default function Users() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="add-password">Password *</Label>
+                  <Label htmlFor="add-password">Lösenord *</Label>
                   <Input
                     id="add-password"
                     type="password"
@@ -414,11 +417,11 @@ export default function Users() {
                         password: e.target.value,
                       })
                     }
-                    placeholder="Minimum 6 characters"
+                    placeholder="Minst 6 tecken"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="add-role">Role</Label>
+                  <Label htmlFor="add-role">Roll</Label>
                   <Select
                     value={addFormData.role}
                     onValueChange={(value) =>
@@ -477,9 +480,9 @@ export default function Users() {
                     resetAddForm();
                   }}
                 >
-                  Cancel
+                  Avbryt
                 </Button>
-                <Button onClick={handleAddUser}>Create User</Button>
+                <Button onClick={handleAddUser}>Skapa användare</Button>
               </div>
             </DialogContent>
           </Dialog>
@@ -490,7 +493,7 @@ export default function Users() {
         columns={columns}
         data={users}
         isLoading={isLoading}
-        emptyMessage="No users found"
+        emptyMessage="Inga användare hittades"
       />
 
       <Dialog
@@ -502,15 +505,15 @@ export default function Users() {
       >
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Edit User</DialogTitle>
+            <DialogTitle>Redigera användare</DialogTitle>
             <DialogDescription>
-              Update user information and role assignment.
+              Uppdatera användarinformation och rolltilldelning.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="firstName">Förnamn</Label>
                 <Input
                   id="firstName"
                   value={formData.firstName}
@@ -520,7 +523,7 @@ export default function Users() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName">Efternamn</Label>
                 <Input
                   id="lastName"
                   value={formData.lastName}
@@ -531,7 +534,7 @@ export default function Users() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">E-post</Label>
               <Input
                 id="email"
                 type="email"
@@ -542,7 +545,7 @@ export default function Users() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="role">Role</Label>
+              <Label htmlFor="role">Roll</Label>
               <Select
                 value={formData.role}
                 onValueChange={(value) =>
@@ -598,9 +601,9 @@ export default function Users() {
                 resetForm();
               }}
             >
-              Cancel
+              Avbryt
             </Button>
-            <Button onClick={handleEditUser}>Save Changes</Button>
+            <Button onClick={handleEditUser}>Spara ändringar</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -608,8 +611,8 @@ export default function Users() {
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>User Profile</DialogTitle>
-            <DialogDescription>Admin user details</DialogDescription>
+            <DialogTitle>Användarprofil</DialogTitle>
+            <DialogDescription>Adminanvändardetaljer</DialogDescription>
           </DialogHeader>
           {selectedUser && (
             <div className="space-y-6">

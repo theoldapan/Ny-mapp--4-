@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { AdminSidebar } from './AdminSidebar';
-import { AdminHeader } from './AdminHeader';
-import { Loader2 } from 'lucide-react';
+import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { AdminSidebar } from "./AdminSidebar";
+import { AdminHeader } from "./AdminHeader";
+import { Loader2 } from "lucide-react";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -11,7 +11,11 @@ interface AdminLayoutProps {
   description?: string;
 }
 
-export function AdminLayout({ children, title, description }: AdminLayoutProps) {
+export function AdminLayout({
+  children,
+  title,
+  description,
+}: AdminLayoutProps) {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {

@@ -21,7 +21,7 @@ public DbSet<ClassRegistration> ClassRegistrations { get; set; }
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configure MemberSubscription relationships
+        
         modelBuilder.Entity<MemberSubscription>()
             .HasOne(ms => ms.Member)
             .WithMany()
@@ -32,13 +32,13 @@ public DbSet<ClassRegistration> ClassRegistrations { get; set; }
             .WithMany()
             .HasForeignKey(ms => ms.PlanId);
 
-        // Configure ClassRegistration relationships
+        
         modelBuilder.Entity<ClassRegistration>()
             .HasOne(cr => cr.GymClass)
             .WithMany()
             .HasForeignKey(cr => cr.ClassId);
 
-        // Configure SubscriptionPlan Features as JSON
+        
         modelBuilder.Entity<SubscriptionPlan>()
             .Property(s => s.Features)
             .HasConversion(

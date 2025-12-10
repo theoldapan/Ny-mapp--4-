@@ -19,7 +19,7 @@ public class SubscriptionController : ControllerBase
         _context = context;
     }
 
-    // GET: api/subscriptions/plans
+    
     [HttpGet("plans")]
     public async Task<ActionResult<IEnumerable<SubscriptionPlanDto>>> GetPlans()
     {
@@ -27,7 +27,7 @@ public class SubscriptionController : ControllerBase
         return Ok(plans.Select(MapToDto));
     }
 
-    // GET: api/subscriptions/plans/{id}
+    
     [HttpGet("plans/{id}")]
     public async Task<ActionResult<SubscriptionPlanDto>> GetPlan(Guid id)
     {
@@ -36,7 +36,7 @@ public class SubscriptionController : ControllerBase
         return Ok(MapToDto(plan));
     }
 
-    // POST: api/subscriptions/plans
+   
     [HttpPost("plans")]
     public async Task<ActionResult<SubscriptionPlanDto>> CreatePlan(CreateSubscriptionPlanDto dto)
     {
@@ -58,7 +58,7 @@ public class SubscriptionController : ControllerBase
         return CreatedAtAction(nameof(GetPlan), new { id = plan.Id }, MapToDto(plan));
     }
 
-    // PUT: api/subscriptions/plans/{id}
+    
     [HttpPut("plans/{id}")]
     public async Task<ActionResult<SubscriptionPlanDto>> UpdatePlan(Guid id, UpdateSubscriptionPlanDto dto)
     {
@@ -76,7 +76,7 @@ public class SubscriptionController : ControllerBase
         return Ok(MapToDto(plan));
     }
 
-    // DELETE: api/subscriptions/plans/{id}
+   
     [HttpDelete("plans/{id}")]
     public async Task<IActionResult> DeletePlan(Guid id)
     {

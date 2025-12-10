@@ -1,7 +1,7 @@
-import { useAuth } from '@/contexts/AuthContext';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { ThemeToggle } from '@/components/theme/ThemeToggle';
+import { useAuth } from "@/contexts/AuthContext";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 interface AdminHeaderProps {
   title: string;

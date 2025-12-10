@@ -29,7 +29,7 @@ namespace HPCDSystem.Models
         
         [Required]
         [MaxLength(10)]
-        public string Gender { get; set; } = string.Empty; // Male, Female, Other
+        public string Gender { get; set; } = string.Empty;
         
         [MaxLength(200)]
         public string Address { get; set; } = string.Empty;
@@ -42,7 +42,7 @@ namespace HPCDSystem.Models
         
         [Required]
         [MaxLength(20)]
-        public string MembershipStatus { get; set; } = "Active"; // Active, Inactive, Suspended, Expired
+        public string MembershipStatus { get; set; } = "Active";
         
         public DateTime JoinDate { get; set; } = DateTime.UtcNow;
         

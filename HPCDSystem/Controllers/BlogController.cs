@@ -21,7 +21,7 @@ namespace HPCDSystem.Controllers
             _context = context;
         }
 
-        // GET: api/blog
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<BlogPostDto>>> GetAll()
@@ -33,7 +33,7 @@ namespace HPCDSystem.Controllers
             return Ok(posts.Select(MapToDto));
         }
 
-        // GET: api/blog/{id}
+
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<BlogPostDto>> GetById(Guid id)
@@ -46,7 +46,7 @@ namespace HPCDSystem.Controllers
             return Ok(MapToDto(post));
         }
 
-        // POST: api/blog
+
         [HttpPost]
         public async Task<ActionResult<BlogPostDto>> Create(CreateBlogPostDto dto)
         {
@@ -76,7 +76,7 @@ namespace HPCDSystem.Controllers
             return CreatedAtAction(nameof(GetById), new { id = post.Id }, MapToDto(post));
         }
 
-        // PUT: api/blog/{id}
+
         [HttpPut("{id}")]
         public async Task<ActionResult<BlogPostDto>> Update(Guid id, UpdateBlogPostDto dto)
         {
@@ -94,7 +94,7 @@ namespace HPCDSystem.Controllers
             
             if (dto.Status != null)
             {
-                // Set PublishedAt when first published
+                
                 if (dto.Status == "Published" && post.Status != "Published")
                 {
                     post.PublishedAt = DateTime.UtcNow;
@@ -109,7 +109,7 @@ namespace HPCDSystem.Controllers
             return Ok(MapToDto(post));
         }
 
-        // DELETE: api/blog/{id}
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

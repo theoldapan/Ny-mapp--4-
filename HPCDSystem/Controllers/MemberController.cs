@@ -19,7 +19,7 @@ namespace HPCDSystem.Controllers
             _context = context;
         }
 
-        // GET: api/members
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetAll()
         {
@@ -30,7 +30,7 @@ namespace HPCDSystem.Controllers
             return Ok(members.Select(MapToDto));
         }
 
-        // GET: api/members/{id}
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<MemberDto>> GetById(Guid id)
         {
@@ -42,11 +42,11 @@ namespace HPCDSystem.Controllers
             return Ok(MapToDto(member));
         }
 
-        // POST: api/members
+        
         [HttpPost]
         public async Task<ActionResult<MemberDto>> Create(CreateMemberDto dto)
         {
-            // Check if email already exists
+            
             if (await _context.Members.AnyAsync(m => m.Email == dto.Email))
                 return BadRequest(new { message = "A member with this email already exists" });
 
@@ -77,7 +77,7 @@ namespace HPCDSystem.Controllers
             return CreatedAtAction(nameof(GetById), new { id = member.Id }, MapToDto(member));
         }
 
-        // PUT: api/members/{id}
+        
         [HttpPut("{id}")]
         public async Task<ActionResult<MemberDto>> Update(Guid id, UpdateMemberDto dto)
         {
@@ -86,7 +86,7 @@ namespace HPCDSystem.Controllers
             if (member == null)
                 return NotFound(new { message = "Member not found" });
 
-            // Check email uniqueness if being updated
+           
             if (dto.Email != null && dto.Email != member.Email)
             {
                 if (await _context.Members.AnyAsync(m => m.Email == dto.Email))
@@ -114,7 +114,7 @@ namespace HPCDSystem.Controllers
             return Ok(MapToDto(member));
         }
 
-        // DELETE: api/members/{id}
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
